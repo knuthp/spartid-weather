@@ -1,0 +1,4 @@
+hloc/
+.project
+.pydevproject
+*.pyc
