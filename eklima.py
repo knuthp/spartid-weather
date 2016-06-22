@@ -132,21 +132,26 @@ class Station:
         
 
     def stationFromMetToSimple(self, resp, methodName):
-        arr = resp['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:' + methodName + 'Response']['return']['item']
-        ret = []
-        i = arr
-        if i['toYear']['#text'] == "0":
-            ret.append({'id':i['stnr']['#text'], 'name':i['name']['#text'], 'county':i['department'].get('#text'), 'pos_utm':{'east':i['utm_e']['#text'], 'north':i['utm_n']['#text'], 'amsl':i['amsl']['#text'], 'zone':i['utm_zone']['#text']}})
+        item = resp['SOAP-ENV:Envelope']['SOAP-ENV:Body']['ns1:' + methodName + 'Response']['return']['item']
+        return {'id':item['stnr']['#text'], 
+                'name':item['name']['#text'], 
+                'county':item['department'].get('#text'), 
+                'pos_utm':{'east':item['utm_e']['#text'], 
+                           'north':item['utm_n']['#text'], 
+                           'amsl':item['amsl']['#text'], 
+                           'zone':item['utm_zone']['#text']
+                           }
+                }
         
-        print "{0} Stations total={1}, active={2}".format(methodName, len(arr), len(ret))
-        return ret
 
     
     
 if __name__ == '__main__':
-    print MetHistory().getStationsActive()
-#    print MetHistory().getStationsWithHourlyTemperature()
+    # print MetHistory().getStationsActive()
+    # print MetHistory().getStationsWithHourlyTemperature()
     metDataValues = Station('19710')
     # print metDataValues.getDailyTemp('2016-05-19', '2016-06-20')
     # print metDataValues.getHourlyTemp('2016-06-20')
+    # print metDataValues.getHourlyTemp('2016-06-20')
+    print metDataValues.getProperties()
     
